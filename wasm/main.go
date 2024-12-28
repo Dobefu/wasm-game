@@ -4,13 +4,13 @@
 package main
 
 import (
-	"github.com/Dobefu/wasm-game/cmd/canvas"
 	"github.com/Dobefu/wasm-game/cmd/dom"
+	"github.com/Dobefu/wasm-game/cmd/game"
 )
 
 func main() {
 	dom.RequestAnimationFrame(func() {
-		canvas.Render()
+		game.Render()
 	})
 
 	ch := make(chan struct{})

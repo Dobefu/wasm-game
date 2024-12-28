@@ -9,24 +9,20 @@ var (
 )
 
 func init() {
-	CANVAS = Canvas{element: dom.GetElementById("game")}
-	CANVAS.context = CANVAS.element.Call("getContext", "2d")
+	CANVAS = Canvas{Element: dom.GetElementById("game")}
+	CANVAS.Context = CANVAS.Element.Call("getContext", "2d")
 
-	dom.AddEventListener("window", "resize", func() { resize(true) })
-	resize(false)
+	dom.AddEventListener("window", "resize", func() { resize() })
+	resize()
 }
 
-func resize(rerender bool) {
+func resize() {
 	height := dom.WINDOW.Get("innerHeight").Int()
 	width := dom.WINDOW.Get("innerWidth").Int()
 
-	CANVAS.element.Set("height", height)
-	CANVAS.element.Set("width", width)
+	CANVAS.Element.Set("height", height)
+	CANVAS.Element.Set("width", width)
 
-	CANVAS.height = height
-	CANVAS.width = width
-
-	if rerender {
-		Render()
-	}
+	CANVAS.Height = height
+	CANVAS.Width = width
 }
