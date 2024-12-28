@@ -11,7 +11,7 @@ import (
 func main() {
 	dom.RequestAnimationFrame(func() {
 		game.Update()
-		game.Render()
+		game.Render(true)
 	})
 
 	ch := make(chan struct{})
