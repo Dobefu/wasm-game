@@ -13,18 +13,8 @@
 <body>
   <canvas id="game"></canvas>
 
-  <script async src="js/main.js"></script>
   <script src="js/wasm_exec.js"></script>
-
-  <script>
-    const go = new Go()
-
-    WebAssembly.instantiateStreaming(fetch('wasm/game.wasm'), go.importObject).then(
-      (result) => {
-        go.run(result.instance)
-      },
-    )
-  </script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
