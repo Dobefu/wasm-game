@@ -4,6 +4,7 @@
 
 function createCanvas() {
   const canvas = document.createElement('canvas')
+  canvas.id = 'game'
 
   document.body.appendChild(canvas)
 
