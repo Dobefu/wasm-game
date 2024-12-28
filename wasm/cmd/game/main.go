@@ -5,11 +5,11 @@ import (
 )
 
 var (
-	CANVAS canvas.Canvas
+	CANVAS *canvas.Canvas
 )
 
 func init() {
-	CANVAS = canvas.CANVAS
+	CANVAS = &canvas.CANVAS
 }
 
 func Render() {
