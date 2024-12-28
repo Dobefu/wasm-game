@@ -10,6 +10,7 @@ import (
 
 func main() {
 	dom.RequestAnimationFrame(func() {
+		game.Update()
 		game.Render()
 	})
 

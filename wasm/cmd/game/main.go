@@ -6,10 +6,15 @@ import (
 
 var (
 	CANVAS *canvas.Canvas
+	frame  int64
 )
 
 func init() {
 	CANVAS = &canvas.CANVAS
+}
+
+func Update() {
+	frame = frame + 1
 }
 
 func Render() {
