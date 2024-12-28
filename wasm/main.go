@@ -4,19 +4,25 @@
 package main
 
 import (
-	"fmt"
 	"syscall/js"
 
 	"github.com/Dobefu/wasm-game/cmd/dom"
 )
 
+var (
+	CANVAS  js.Value
+	CONTEXT js.Value
+)
+
 func init() {
-	dom.AddEventListener("window", "resize", func() {
-		fmt.Println("Resize")
-	})
+	CANVAS = dom.GetElementById("game")
+	CONTEXT = CANVAS.Call("getContext", "2d")
+
+	dom.AddEventListener("window", "resize", func() { resizeCanvas(true) })
 }
 
 func main() {
+	resizeCanvas(false)
 	render()
 
 	ch := make(chan struct{})
@@ -24,16 +30,19 @@ func main() {
 }
 
 func render() {
-	var canvas js.Value = js.Global().Get("document").Call("getElementById", "game")
-	var context js.Value = canvas.Call("getContext", "2d")
-
-	canvas.Set("height", 100)
-	canvas.Set("width", 100)
-
 	for i := 0; i < 50; i++ {
-		context.Call("beginPath")
-		context.Call("moveTo", 0, 0)
-		context.Call("lineTo", 100, 100)
-		context.Call("stroke")
+		CONTEXT.Call("beginPath")
+		CONTEXT.Call("moveTo", 0, 0)
+		CONTEXT.Call("lineTo", 100, 100)
+		CONTEXT.Call("stroke")
+	}
+}
+
+func resizeCanvas(rerender bool) {
+	CANVAS.Set("height", dom.WINDOW.Get("innerHeight"))
+	CANVAS.Set("width", dom.WINDOW.Get("innerWidth"))
+
+	if rerender {
+		render()
 	}
 }
