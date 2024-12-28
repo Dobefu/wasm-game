@@ -3,8 +3,8 @@ package canvas
 import "syscall/js"
 
 type Canvas struct {
-	height  uint8
-	width   uint8
+	height  int
+	width   int
 	element js.Value
 	context js.Value
 }
