@@ -4,8 +4,24 @@
 package main
 
 import (
+	"fmt"
 	"syscall/js"
+
+	"github.com/Dobefu/wasm-game/cmd/dom"
 )
+
+func init() {
+	dom.AddEventListener("window", "resize", func() {
+		fmt.Println("Resize")
+	})
+}
+
+func main() {
+	render()
+
+	ch := make(chan struct{})
+	<-ch
+}
 
 func render() {
 	var canvas js.Value = js.Global().Get("document").Call("getElementById", "game")
@@ -20,8 +36,4 @@ func render() {
 		context.Call("lineTo", 100, 100)
 		context.Call("stroke")
 	}
-}
-
-func main() {
-	render()
 }

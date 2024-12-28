@@ -9,5 +9,5 @@ var (
 
 func init() {
 	DOCUMENT = js.Global().Get("document")
-	DOCUMENT = js.Global().Get("window")
+	WINDOW = js.Global().Get("window")
 }
