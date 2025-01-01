@@ -20,9 +20,8 @@ func init() {
 	CANVAS = &canvas.CANVAS
 	_LAST_TIME = time.Now()
 
-	Instantiate(structs.GameObject{X: 300, Y: 100})
-	Instantiate(structs.GameObject{X: 100, Y: 300})
-	Instantiate(structs.GameObject{X: 100, Y: 100, Rotation: 90})
+	obj := Instantiate(structs.GameObject{X: 100, Y: 100})
+	Instantiate(structs.GameObject{X: 250, Parent: obj})
 }
 
 func Update() {
@@ -38,11 +37,26 @@ func Render(clearCanvas bool) {
 	}
 
 	for _, gameObject := range GAME_OBJECTS {
-		sin, cos := math.Sincos(gameObject.Rotation / (360 / (math.Pi * 2)))
+		rotation := gameObject.Rotation
+
+		var xFrom, yFrom, xTo, yTo float64
+
+		if gameObject.Parent != nil {
+			xFrom += gameObject.Parent.X
+			yFrom += gameObject.Parent.Y
+			xTo += gameObject.Parent.X
+			yTo += gameObject.Parent.Y
+			rotation += gameObject.Parent.Rotation
+		}
+
+		sin, cos := math.Sincos(rotation / (360 / (math.Pi * 2)))
+
+		xFrom, yFrom = xFrom+gameObject.X-(cos*100), yFrom+gameObject.Y-(sin*100)
+		xTo, yTo = xTo+gameObject.X+(cos*100), yTo+gameObject.Y+(sin*100)
 
 		CANVAS.Context.Call("beginPath")
-		CANVAS.Context.Call("moveTo", gameObject.X+(cos*100), gameObject.Y+(sin*100))
-		CANVAS.Context.Call("lineTo", gameObject.X-(cos*100), gameObject.Y-(sin*100))
+		CANVAS.Context.Call("moveTo", xFrom, yFrom)
+		CANVAS.Context.Call("lineTo", xTo, yTo)
 		CANVAS.Context.Call("stroke")
 	}
 }
