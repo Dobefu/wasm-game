@@ -5,14 +5,16 @@ import (
 	"time"
 
 	"github.com/Dobefu/wasm-game/cmd/canvas"
+	"github.com/Dobefu/wasm-game/cmd/game/structs"
 )
 
 var (
-	CANVAS     *canvas.Canvas
-	FRAME      int
-	DELTA_TIME float64
-	_LAST_TIME time.Time
-	ROTATION   float64
+	CANVAS       *canvas.Canvas
+	FRAME        int
+	DELTA_TIME   float64
+	_LAST_TIME   time.Time
+	ROTATION     float64
+	GAME_OBJECTS []structs.GameObject
 )
 
 func init() {
@@ -37,7 +39,7 @@ func Render(clearCanvas bool) {
 	cos := math.Cos(ROTATION)
 
 	CANVAS.Context.Call("beginPath")
-	CANVAS.Context.Call("moveTo", (float64(CANVAS.Width/2)*cos)+(float64(CANVAS.Width)/2), (float64(CANVAS.Height/2)*sin)+(float64(CANVAS.Height)/2))
-	CANVAS.Context.Call("lineTo", -(float64(CANVAS.Width/2)*cos)+(float64(CANVAS.Width)/2), -(float64(CANVAS.Height/2)*sin)+(float64(CANVAS.Height)/2))
+	CANVAS.Context.Call("moveTo", (cos*100)+(float64(CANVAS.Width)/2), (sin*100)+(float64(CANVAS.Height)/2))
+	CANVAS.Context.Call("lineTo", -(cos*100)+(float64(CANVAS.Width)/2), -(sin*100)+(float64(CANVAS.Height)/2))
 	CANVAS.Context.Call("stroke")
 }
