@@ -13,13 +13,16 @@ var (
 	FRAME        int
 	DELTA_TIME   float64
 	_LAST_TIME   time.Time
-	ROTATION     float64
-	GAME_OBJECTS []structs.GameObject
+	GAME_OBJECTS []*structs.GameObject
 )
 
 func init() {
 	CANVAS = &canvas.CANVAS
 	_LAST_TIME = time.Now()
+
+	Instantiate(structs.GameObject{X: 300, Y: 100})
+	Instantiate(structs.GameObject{X: 100, Y: 300})
+	Instantiate(structs.GameObject{X: 100, Y: 100, Rotation: 90})
 }
 
 func Update() {
@@ -34,12 +37,12 @@ func Render(clearCanvas bool) {
 		CANVAS.Context.Call("clearRect", 0, 0, CANVAS.Width, CANVAS.Height)
 	}
 
-	ROTATION += DELTA_TIME
-	sin := math.Sin(ROTATION)
-	cos := math.Cos(ROTATION)
+	for _, gameObject := range GAME_OBJECTS {
+		sin, cos := math.Sincos(gameObject.Rotation / (360 / (math.Pi * 2)))
 
-	CANVAS.Context.Call("beginPath")
-	CANVAS.Context.Call("moveTo", (cos*100)+(float64(CANVAS.Width)/2), (sin*100)+(float64(CANVAS.Height)/2))
-	CANVAS.Context.Call("lineTo", -(cos*100)+(float64(CANVAS.Width)/2), -(sin*100)+(float64(CANVAS.Height)/2))
-	CANVAS.Context.Call("stroke")
+		CANVAS.Context.Call("beginPath")
+		CANVAS.Context.Call("moveTo", gameObject.X+(cos*100), gameObject.Y+(sin*100))
+		CANVAS.Context.Call("lineTo", gameObject.X-(cos*100), gameObject.Y-(sin*100))
+		CANVAS.Context.Call("stroke")
+	}
 }
