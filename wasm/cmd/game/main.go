@@ -25,10 +25,6 @@ func init() {
 	Instantiate(structs.GameObject{Width: 100, Height: 100, Y: 150, Parent: obj, Scale: .5})
 }
 
-func Update() {
-	FRAME = FRAME + 1
-}
-
 func Render(clearCanvas bool) {
 	DELTA_TIME = float64(time.Now().UnixMilli()-_LAST_TIME.UnixMilli()) / 1000
 	_LAST_TIME = time.Now()
