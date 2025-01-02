@@ -7,24 +7,18 @@ import (
 	"github.com/Dobefu/wasm-game/cmd/rotate"
 )
 
-func CheckCollision(source structs.GameObject) bool {
-	for _, gameObject := range GAME_OBJECTS {
-		if *gameObject == source {
-			continue
-		}
+func CheckCollision(source, target *structs.GameObject) bool {
+	x1, y1, r1, s1 := source.GetWorldTransform()
+	x2, y2, r2, s2 := target.GetWorldTransform()
 
-		x1, y1, r1, s1 := source.GetWorldTransform()
-		x2, y2, r2, s2 := gameObject.GetWorldTransform()
+	corners1 := rotate.GetRotatedCorners(x1, y1, source.Width*s1, source.Height*s1, r1)
+	corners2 := rotate.GetRotatedCorners(x2, y2, target.Width*s2, target.Height*s2, r2)
 
-		corners1 := rotate.GetRotatedCorners(x1, y1, source.Width*s1, source.Height*s1, r1)
-		corners2 := rotate.GetRotatedCorners(x2, y2, gameObject.Width*s2, gameObject.Height*s2, r2)
+	minX1, minY1, maxX1, maxY1 := getBoundingBox(corners1)
+	minX2, minY2, maxX2, maxY2 := getBoundingBox(corners2)
 
-		minX1, minY1, maxX1, maxY1 := getBoundingBox(corners1)
-		minX2, minY2, maxX2, maxY2 := getBoundingBox(corners2)
-
-		if !(maxX1 < minX2 || maxX2 < minX1 || maxY1 < minY2 || maxY2 < minY1) {
-			return true
-		}
+	if !(maxX1 < minX2 || maxX2 < minX1 || maxY1 < minY2 || maxY2 < minY1) {
+		return true
 	}
 
 	return false
