@@ -1,7 +1,6 @@
 package game
 
 import (
-	"math"
 	"time"
 
 	"github.com/Dobefu/wasm-game/cmd/canvas"
@@ -60,17 +59,12 @@ func Render(clearCanvas bool) {
 			y = gameObject.Y
 		}
 
-		radians := rotate.ToRadians(rotation)
-		sin, cos := math.Sincos(radians)
-
-		xFrom := x - cos*50
-		yFrom := y - sin*50
-		xTo := x + cos*50
-		yTo := y + sin*50
-
+		CANVAS.Context.Call("save")
+		CANVAS.Context.Call("translate", x, y)
+		CANVAS.Context.Call("rotate", rotate.ToRadians(rotation))
 		CANVAS.Context.Call("beginPath")
-		CANVAS.Context.Call("moveTo", xFrom, yFrom)
-		CANVAS.Context.Call("lineTo", xTo, yTo)
-		CANVAS.Context.Call("stroke")
+		CANVAS.Context.Call("rect", -50, -50, 100, 100)
+		CANVAS.Context.Call("fill")
+		CANVAS.Context.Call("restore")
 	}
 }
