@@ -20,9 +20,9 @@ func init() {
 	CANVAS = &canvas.CANVAS
 	_LAST_TIME = time.Now()
 
-	obj := Instantiate(structs.GameObject{X: 500, Y: 500})
-	Instantiate(structs.GameObject{X: 150, Parent: obj})
-	Instantiate(structs.GameObject{Y: 150, Parent: obj})
+	obj := Instantiate(structs.GameObject{Width: 100, Height: 100, X: 500, Y: 500})
+	Instantiate(structs.GameObject{Width: 100, Height: 100, X: 150, Parent: obj})
+	Instantiate(structs.GameObject{Width: 100, Height: 100, Y: 150, Parent: obj})
 }
 
 func Update() {
@@ -42,7 +42,7 @@ func Render(clearCanvas bool) {
 		rotation := gameObject.Rotation
 
 		if gameObject.Parent == nil {
-			gameObject.Rotation += 1
+			gameObject.Rotation += DELTA_TIME * 50
 		}
 
 		var x, y float64
@@ -65,7 +65,7 @@ func Render(clearCanvas bool) {
 		CANVAS.Context.Call("translate", x, y)
 		CANVAS.Context.Call("rotate", rotate.ToRadians(rotation))
 		CANVAS.Context.Call("beginPath")
-		CANVAS.Context.Call("rect", -50, -50, 100, 100)
+		CANVAS.Context.Call("rect", -(gameObject.Width / 2), -(gameObject.Height / 2), gameObject.Width, gameObject.Height)
 		CANVAS.Context.Call("fill")
 		CANVAS.Context.Call("restore")
 	}
