@@ -6,6 +6,7 @@ import (
 
 	"github.com/Dobefu/wasm-game/cmd/canvas"
 	"github.com/Dobefu/wasm-game/cmd/game/structs"
+	"github.com/Dobefu/wasm-game/cmd/rotate"
 )
 
 var (
@@ -20,8 +21,9 @@ func init() {
 	CANVAS = &canvas.CANVAS
 	_LAST_TIME = time.Now()
 
-	obj := Instantiate(structs.GameObject{X: 100, Y: 100})
-	Instantiate(structs.GameObject{X: 250, Parent: obj})
+	obj := Instantiate(structs.GameObject{X: 500, Y: 500})
+	Instantiate(structs.GameObject{X: 150, Parent: obj})
+	Instantiate(structs.GameObject{Y: 150, Parent: obj})
 }
 
 func Update() {
@@ -39,20 +41,32 @@ func Render(clearCanvas bool) {
 	for _, gameObject := range GAME_OBJECTS {
 		rotation := gameObject.Rotation
 
-		var xFrom, yFrom, xTo, yTo float64
-
-		if gameObject.Parent != nil {
-			xFrom += gameObject.Parent.X
-			yFrom += gameObject.Parent.Y
-			xTo += gameObject.Parent.X
-			yTo += gameObject.Parent.Y
-			rotation += gameObject.Parent.Rotation
+		if gameObject.Parent == nil {
+			gameObject.Rotation += 1
 		}
 
-		sin, cos := math.Sincos(rotation / (360 / (math.Pi * 2)))
+		var x, y float64
 
-		xFrom, yFrom = xFrom+gameObject.X-(cos*100), yFrom+gameObject.Y-(sin*100)
-		xTo, yTo = xTo+gameObject.X+(cos*100), yTo+gameObject.Y+(sin*100)
+		if gameObject.Parent != nil {
+			parentRotation := rotate.ToRadians(gameObject.Parent.Rotation)
+			rotatedX, rotatedY := rotate.RotatePoint(gameObject.X, gameObject.Y, 0, 0, parentRotation)
+
+			x = gameObject.Parent.X + rotatedX
+			y = gameObject.Parent.Y + rotatedY
+
+			rotation = gameObject.Parent.Rotation + rotation
+		} else {
+			x = gameObject.X
+			y = gameObject.Y
+		}
+
+		radians := rotate.ToRadians(rotation)
+		sin, cos := math.Sincos(radians)
+
+		xFrom := x - cos*50
+		yFrom := y - sin*50
+		xTo := x + cos*50
+		yTo := y + sin*50
 
 		CANVAS.Context.Call("beginPath")
 		CANVAS.Context.Call("moveTo", xFrom, yFrom)
