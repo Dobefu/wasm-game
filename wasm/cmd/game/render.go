@@ -1,15 +1,10 @@
 package game
 
 import (
-	"time"
-
 	"github.com/Dobefu/wasm-game/cmd/rotate"
 )
 
 func Render(clearCanvas bool) {
-	DELTA_TIME = float64(time.Now().UnixMilli()-_LAST_TIME.UnixMilli()) / 1000
-	_LAST_TIME = time.Now()
-
 	if clearCanvas {
 		CANVAS.Context.Set("fillStyle", "black")
 		CANVAS.Context.Call("fillRect", 0, 0, CANVAS.Width, CANVAS.Height)
