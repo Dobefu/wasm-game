@@ -7,4 +7,5 @@ type GameObject struct {
 	Scale    float64
 	Rotation float64
 	Parent   *GameObject
+	Type     GameObjectType
 }
