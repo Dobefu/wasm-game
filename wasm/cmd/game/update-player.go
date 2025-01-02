@@ -13,6 +13,7 @@ func UpdatePlayer(player *structs.GameObject) {
 		player.X += DELTA_TIME * 25
 	}
 }
+
 func canMove(player *structs.GameObject, dx, dy float64) bool {
 	tmpChar := &structs.GameObject{
 		X:        player.X + dx,
