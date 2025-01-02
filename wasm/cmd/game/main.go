@@ -34,7 +34,8 @@ func Render(clearCanvas bool) {
 	_LAST_TIME = time.Now()
 
 	if clearCanvas {
-		CANVAS.Context.Call("clearRect", 0, 0, CANVAS.Width, CANVAS.Height)
+		CANVAS.Context.Set("fillStyle", "black")
+		CANVAS.Context.Call("fillRect", 0, 0, CANVAS.Width, CANVAS.Height)
 	}
 
 	for _, gameObject := range GAME_OBJECTS {
@@ -60,6 +61,7 @@ func Render(clearCanvas bool) {
 		}
 
 		CANVAS.Context.Call("save")
+		CANVAS.Context.Set("fillStyle", "white")
 		CANVAS.Context.Call("translate", x, y)
 		CANVAS.Context.Call("rotate", rotate.ToRadians(rotation))
 		CANVAS.Context.Call("beginPath")
