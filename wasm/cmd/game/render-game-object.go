@@ -9,10 +9,6 @@ func RenderGameObject(gameObject *structs.GameObject) {
 	rotation := gameObject.Rotation
 	scale := gameObject.Scale
 
-	if gameObject.Parent == nil {
-		gameObject.Rotation += DELTA_TIME * 50
-	}
-
 	var x, y float64
 
 	if gameObject.Parent != nil {

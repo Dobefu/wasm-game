@@ -18,8 +18,4 @@ var (
 func init() {
 	CANVAS = &canvas.CANVAS
 	_LAST_TIME = time.Now()
-
-	obj := Instantiate(structs.GameObject{Width: 100, Height: 100, X: 500, Y: 500, Scale: .5})
-	Instantiate(structs.GameObject{Width: 100, Height: 100, X: 150, Parent: obj})
-	Instantiate(structs.GameObject{Width: 100, Height: 100, Y: 150, Parent: obj, Scale: .5})
 }
