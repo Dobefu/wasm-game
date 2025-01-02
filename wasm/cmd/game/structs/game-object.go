@@ -1,10 +1,10 @@
 package structs
 
 type GameObject struct {
-	X        float64
-	Y        float64
+	X, Y     float64
 	Width    float64
 	Height   float64
+	Scale    float64
 	Rotation float64
 	Parent   *GameObject
 }
