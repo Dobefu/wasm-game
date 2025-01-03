@@ -10,7 +10,7 @@ import (
 	"github.com/Dobefu/wasm-game/cmd/dom"
 )
 
-var state structs.Keys
+var Keys structs.Keys
 
 func init() {
 	dom.AddEventListener("window", "keydown", handleKeyDown)
@@ -26,16 +26,16 @@ func handleKeyDown(_ js.Value, args []js.Value) {
 
 	switch {
 	case key == "ArrowLeft" || key == "h" || key == "a":
-		state.Left = true
+		Keys.Left = true
 		break
 	case key == "ArrowRight" || key == "l" || key == "d":
-		state.Right = true
+		Keys.Right = true
 		break
 	case key == "ArrowUp" || key == "k" || key == "w" || key == " ":
-		state.Up = true
+		Keys.Up = true
 		break
 	case key == "ArrowDown" || key == "j" || key == "s":
-		state.Down = true
+		Keys.Down = true
 		break
 	}
 }
@@ -49,16 +49,16 @@ func handleKeyUp(_ js.Value, args []js.Value) {
 
 	switch {
 	case key == "ArrowLeft" || key == "h" || key == "a":
-		state.Left = false
+		Keys.Left = false
 		break
 	case key == "ArrowRight" || key == "l" || key == "d":
-		state.Right = false
+		Keys.Right = false
 		break
 	case key == "ArrowUp" || key == "k" || key == "w" || key == " ":
-		state.Up = false
+		Keys.Up = false
 		break
 	case key == "ArrowDown" || key == "j" || key == "s":
-		state.Down = false
+		Keys.Down = false
 		break
 	}
 }
