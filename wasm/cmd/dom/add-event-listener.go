@@ -1,15 +1,17 @@
 package dom
 
-import "syscall/js"
+import (
+	"syscall/js"
+)
 
-func wrapGoFunction(fn func()) func(js.Value, []js.Value) interface{} {
-	return func(_ js.Value, _ []js.Value) interface{} {
-		fn()
+func wrapGoFunction(fn func(js.Value, []js.Value)) func(js.Value, []js.Value) interface{} {
+	return func(this js.Value, args []js.Value) interface{} {
+		fn(this, args)
 		return nil
 	}
 }
 
-func AddEventListener(element string, event string, fn func()) {
+func AddEventListener(element string, event string, fn func(js.Value, []js.Value)) {
 	switch element {
 	case "document":
 		DOCUMENT.Call("addEventListener", event, js.FuncOf(wrapGoFunction(fn)))
