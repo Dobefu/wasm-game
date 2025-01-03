@@ -53,6 +53,10 @@ func UpdatePlayer(player *structs.GameObject) {
 			player.XSpeed = 0
 		}
 	}
+
+	if !canMove(player, 0, player.YSpeed+DELTA_TIME*25) && controls.Keys.Up {
+		player.YSpeed = -DELTA_TIME * 500
+	}
 }
 
 func canMove(player *structs.GameObject, dx, dy float64) bool {
