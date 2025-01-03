@@ -8,21 +8,23 @@ import (
 
 	"github.com/Dobefu/wasm-game/cmd/controls"
 	"github.com/Dobefu/wasm-game/cmd/game/structs"
+	"github.com/Dobefu/wasm-game/cmd/utils"
 )
 
 func UpdatePlayer(player *structs.GameObject) {
-	if canMove(player, player.XSpeed, -.01) {
+	if canMove(player, player.XSpeed, 0) {
 		player.X += player.XSpeed
 	} else {
-		for canMove(player, DELTA_TIME*25, -.01) {
-			player.X += DELTA_TIME * 25
+		for canMove(player, DELTA_TIME*25*float64(utils.Sign(player.XSpeed)), 0) {
+			player.X += DELTA_TIME * 25 * float64(utils.Sign(player.XSpeed))
 		}
 
 		player.X = math.Round(player.X)
+		player.X += float64(utils.Sign(player.XSpeed)) * -1e-6
 		player.XSpeed = 0
 	}
 
-	if canMove(player, 0, player.YSpeed) {
+	if canMove(player, 0, player.YSpeed+DELTA_TIME*25) {
 		player.YSpeed += DELTA_TIME * 25
 		player.Y += player.YSpeed
 	} else {
@@ -31,6 +33,7 @@ func UpdatePlayer(player *structs.GameObject) {
 		}
 
 		player.Y = math.Round(player.Y)
+		player.Y -= 1e-6
 		player.YSpeed = 0
 	}
 
