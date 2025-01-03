@@ -47,7 +47,7 @@ func UpdatePlayer(player *structs.GameObject) {
 		xsp = DELTA_TIME * 4
 	}
 
-	player.XSpeed = math.Max(math.Min(player.XSpeed+xsp, 2), -2)
+	player.XSpeed = math.Max(math.Min(player.XSpeed+xsp, 4), -4)
 
 	if xsp == 0 {
 		player.XSpeed *= .9
@@ -57,7 +57,7 @@ func UpdatePlayer(player *structs.GameObject) {
 		}
 	}
 
-	if !canMove(player, 0, player.YSpeed+DELTA_TIME*25) && controls.Keys.Up {
+	if !canMove(player, 0, 1e-6) && controls.Keys.Up {
 		player.YSpeed = -DELTA_TIME * 500
 	}
 }
