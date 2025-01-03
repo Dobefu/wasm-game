@@ -4,7 +4,6 @@
 package game
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/Dobefu/wasm-game/cmd/controls"
@@ -12,7 +11,6 @@ import (
 )
 
 func UpdatePlayer(player *structs.GameObject) {
-	fmt.Println(player.XSpeed)
 	if canMove(player, player.XSpeed, -.01) {
 		player.X += player.XSpeed
 	} else {
@@ -46,7 +44,15 @@ func UpdatePlayer(player *structs.GameObject) {
 		xsp = DELTA_TIME * 4
 	}
 
-	player.XSpeed = math.Max(math.Min(player.XSpeed+xsp, 1), -1)
+	player.XSpeed = math.Max(math.Min(player.XSpeed+xsp, 2), -2)
+
+	if xsp == 0 {
+		player.XSpeed *= .9
+
+		if math.Abs(player.XSpeed) <= .01 {
+			player.XSpeed = 0
+		}
+	}
 }
 
 func canMove(player *structs.GameObject, dx, dy float64) bool {
