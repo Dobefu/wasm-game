@@ -8,6 +8,8 @@ type GameObject struct {
 	Height   float64
 	Scale    float64
 	Rotation float64
+	XSpeed   float64
+	YSpeed   float64
 	Parent   *GameObject
 	Type     GameObjectType
 }

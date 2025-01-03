@@ -5,12 +5,15 @@ import (
 )
 
 func UpdatePlayer(player *structs.GameObject) {
-	if canMove(player, 0, DELTA_TIME*25) {
-		player.Y += DELTA_TIME * 25
-	}
+	if canMove(player, 0, player.YSpeed) {
+		player.YSpeed += DELTA_TIME * 25
+		player.Y += player.YSpeed
+	} else {
+		for canMove(player, 0, DELTA_TIME*25) {
+			player.Y += DELTA_TIME * 25
+		}
 
-	if canMove(player, DELTA_TIME*25, 0) {
-		player.X += DELTA_TIME * 25
+		player.YSpeed = 0
 	}
 }
 

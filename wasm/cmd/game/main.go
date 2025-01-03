@@ -26,5 +26,5 @@ func init() {
 	Instantiate(structs.GameObject{Width: 50, Height: 50, X: 550, Y: 770})
 	Instantiate(structs.GameObject{Width: 50, Height: 50, X: 350, Y: 720})
 
-	Instantiate(structs.GameObject{Width: 50, Height: 50, X: 50, Y: 720, Type: structs.GAME_OBJECT_TYPE_PLAYER})
+	Instantiate(structs.GameObject{Width: 50, Height: 50, X: 50, Y: 620, Type: structs.GAME_OBJECT_TYPE_PLAYER})
 }
